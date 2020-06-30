@@ -1,0 +1,395 @@
+---
+title: "tempiASD2"
+author: "Riccardo"
+date: "5/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+## non mettere trend line 
+# fare grafici comparativi sia in scale lineare che in scala logaritmica 
+# path : /Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/__.csv"
+
+tempi <- read.csv("/Users/riccardo/Desktop/ASD_vs/tempi.csv", header = TRUE, sep = ',')
+tempi_worst <- read.csv("/Users/riccardo/Desktop/ASD_vs/tempi_worst.csv", header = TRUE, sep = ',')
+
+ggplot(tempi, aes( x = Dim, y = TempoM) )+ 
+  geom_line(color = "red") +
+  geom_line(data= tempi_worst, aes( x = Dim, y = TempoM), color = "green", size = 0.4 )
+
+
+ggplot(tempi, aes( x = Dim, y = TempoM) )+ 
+  geom_line(color = "red") +
+  geom_line(data= tempi_worst, aes( x = Dim, y = TempoM), color = "green", size = 0.4 ) + 
+  scale_x_log10()
+
+# scala logaritmica su y ... vedo come per tempi piccoli aumenta di più che per tempi grandi 
+ggplot(tempi, aes( x = Dim, y = TempoM) )+ 
+  geom_line(color = "red") +
+  geom_line(data= tempi_worst, aes( x = Dim, y = TempoM), color = "green", size = 0.4 ) + 
+  scale_y_log10() 
+ 
+
+
+```
+
+
+```{r}
+
+c1 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/distr_1.csv",  header = TRUE)
+
+ggplot( c1, aes( x = Campioni) ) + 
+  geom_bar() + 
+  labs( subtitle = "n == 1000\n")+ 
+  theme_minimal() +
+  xlab( "valori del campione")
+
+c1_ <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/distr_1_.csv",  header = TRUE)
+
+ggplot( c1_, aes( x = Campioni) ) + 
+  geom_bar() +
+  labs( subtitle = "n == 2000\n")+ 
+  theme_minimal() +
+  xlab( "valori del campione")
+
+
+c2 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/distr_2.csv",  header = TRUE)
+
+ggplot( c2, aes( x = Campioni) ) + 
+  geom_bar() + 
+  labs( subtitle = "n == 10000\n") + 
+  theme_minimal() +
+  xlab( "valori del campione")
+  
+
+c3 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/distr_3.csv",  header = TRUE)
+
+ggplot( c3, aes( x = Campioni) ) + 
+  geom_bar( ) + 
+  labs( subtitle = "n == 20000\n")+ 
+  theme_minimal() +
+  xlab( "valori del campione")
+
+ 
+```
+
+ ** QUESTI SONO I GRAFICIIII ** 
+```{r}
+
+t <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/res.csv", header = TRUE, sep = ' ')
+
+### BST 
+ggplot(t, aes( x = Op, y = Tempo_bst) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  geom_linerange( aes(x=Op, ymin=Tempo_bst -Sd_bst, ymax=Tempo_bst +Sd_bst), width=0.2, size=0.2, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find") + 
+  labs( title = "Binary Search Trees")
+
+ggplot(t, aes( x = Op, y = Tempo_bst) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  theme_minimal() + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find") + 
+  labs( title = "Binary Search Trees")
+
+
+### AVL 
+ggplot(t, aes( x = Op, y = Tempo_avl) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  geom_linerange( aes(x=Op, ymin=Tempo_avl -Sd_avl, ymax=Tempo_avl +Sd_avl), width=0.2, size=0.2, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find") + 
+  labs( title = "AVL Trees")
+
+ggplot(t, aes( x = Op, y = Tempo_avl) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  ##geom_linerange( aes(x=Op*2, ymin=Tempo_avl -Sd_avl, ymax=Tempo_avl +Sd_avl), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find") + 
+  labs( title = "AVL Trees")
+
+#### RB 
+
+ggplot(t, aes( x = Op, y = Tempo_rb) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  geom_linerange( aes(x=Op, ymin=Tempo_rb -Sd_rb, ymax=Tempo_rb +Sd_rb), width=0.2, size=0.2, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero operazioni ") + 
+  labs( title = "RedBlack Trees")
+
+ggplot(t, aes( x = Op, y = Tempo_rb) )+ 
+  geom_point(color = "black", size = 1, alpha = 0.8) + 
+  ##geom_linerange( aes(x=Op*2, ymin=Tempo_rb -Sd_rb, ymax=Tempo_rb +Sd_rb), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  scale_x_log10() + 
+  scale_y_log10() + 
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find") + 
+  labs( title = "RedBlack Trees")
+
+
+#### CONFRONTI 
+
+ggplot(t, aes( x = Op, y = Tempo_bst) )+ 
+  geom_point(color = "blue", size = 1, alpha = 0.6) + 
+  geom_point(data= t, aes( x = Op, y = Tempo_avl), size = 1, color = "green", alpha = 0.4 ) +
+  theme_minimal() +
+  ylab( "Tempo di esecuzione") + 
+  xlab("Numero di find") + 
+  labs(subtitle = "\nblue - BSTree\ngreen - AVL Tree")
+
+ggplot(t, aes( x = Op, y = Tempo_bst) )+ 
+  geom_point(color = "blue", size = 1, alpha = 0.6) + 
+  geom_point(data= t, aes( x = Op, y = Tempo_rb), size = 1, color = "red", alpha = 0.4 ) +
+  geom_point(data= t, aes( x = Op, y = Tempo_avl), size = 1, color = "green", alpha = 0.4 ) +
+  theme_minimal() +
+  ylab( "Tempo di esecuzione") + 
+  xlab("Numero di find") + 
+  labs(subtitle = "\nblue - BSTree\ngreen - AVL Tree\nred - RB Tree")
+
+ggplot(t, aes( x = Op, y = Tempo_bst) )+ 
+  geom_point(color = "blue", size = 1, alpha = 0.6) + 
+  geom_point(data= t, aes( x = Op, y = Tempo_rb), size = 1, color = "red", alpha = 0.4 ) +
+  geom_point(data= t, aes( x = Op, y = Tempo_avl), size = 1, color = "green", alpha = 0.4 ) +
+  theme_minimal() +
+  scale_x_log10()+ 
+  scale_y_log10()+
+  ylab( "Tempo di esecuzione") + 
+  xlab("Numero di find") + 
+  labs(subtitle = "\nblue - BSTree\ngreen - AVL Tree\nred - RB Tree")
+
+
+ggplot(t, aes( x = Op, y = Tempo_avl) )+ 
+  geom_point(color = "green", size = 1, alpha = 0.8) + 
+  geom_point(data= t, aes( x = Op, y = Tempo_rb), size = 1, color = "red", alpha = 0.8 ) +
+  theme_minimal() +
+  scale_x_log10()+ 
+  scale_y_log10() +
+  ylab( "Tempo di esecuzione") + 
+  xlab( "Numero di find ") + 
+  labs(subtitle = "green - AVL Tree\nred - RB Tree")
+
+
+
+```
+
+BST 
+
+```{r}
+## costo di un insert 
+t <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst.csv",  header = TRUE, sep = ',')
+
+ggplot(t, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "red", size = 0.0000000000000001, alpha = 0.4) + 
+  scale_x_log10()+
+  scale_y_log10()
+
+ggplot(t, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "blue", size = 0.0000000000000001, alpha = 0.4) + 
+  scale_x_log10()
+
+ggplot(t, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.0000000000000001, alpha = 0.1) + 
+  scale_y_log10()
+
+
+### worst
+t_p <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst_worst.csv",  header = TRUE, sep = ',')
+
+mean( t_p$Tempo )
+ggplot(t_p, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.1) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Caso pessimo binary search tree")
+
+ggplot(t_p, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.1) + 
+  scale_y_log10() + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Caso pessimo binary search tree", subtitle = "ascisse in scala logaritmica")
+
+ggplot(t_p, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.1) + 
+  scale_y_log10()
+
+
+### con numeri da 0 - 99 
+
+t_1 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst.csv",  header = TRUE, sep = ',')
+
+mean( t_1$Tempo )
+ggplot(t_1, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.9) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Binary search tree", subtitle = "tempo medio == 6.754707e-08s\nkey random in [0,99]")
+
+ggplot(t_1, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.5) + 
+  scale_x_log10() + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Caso pessimo binary search tree", subtitle = "ascisse in scala logaritmica")
+
+### con numeri da 0 - 9999 
+
+t_2 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst_0_9999.csv",  header = TRUE, sep = ',')
+
+mean( t_2$Tempo )
+ggplot(t_2, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.5) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Binary search tree", subtitle = "tempo medio == 1.371143e-07s\nkey random in [0,9999]")
+
+ggplot(t_2, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.5) + 
+  scale_x_log10() + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Caso pessimo binary search tree", subtitle = "ascisse in scala logaritmica")
+
+### con numeri da 0 - 999999 
+
+t_3 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst_0_999999.csv",  header = TRUE, sep = ',')
+
+mean( t_3$Tempo )
+ggplot(t_3, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.5) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Binary search tree", subtitle = "tempo medio == 1.45503e-07s\nkey random in [0,999999]")
+
+ggplot(t_3, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.1, alpha = 0.5) + 
+  scale_x_log10() + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Dimensione input") + 
+  labs(title = "Caso pessimo binary search tree", subtitle = "ascisse in scala logaritmica")
+
+
+
+t_bst <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/bst1.csv",  header = TRUE, sep = ',')
+
+mean( t_bst$Tempo )
+ggplot(t_bst, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") + 
+  labs(title = "Binary search tree", subtitle = "tempo medio == 6.464314e-07s")
+
+ggplot(t, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  scale_x_log10() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") 
+
+t_avl <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/avl1.csv",  header = TRUE, sep = ',')
+
+mean( t_avl$Tempo )
+ggplot(t_avl, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") + 
+  labs(title = "AVL tree", subtitle = "tempo medio == 6.320185e-07s")
+
+ggplot(t_avl, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  scale_x_log10() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") 
+
+t_rb <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/rb1.csv",  header = TRUE, sep = ',')
+
+mean( t_rb$Tempo )
+ggplot(t_rb, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") + 
+  labs(title = "Red-Black tree", subtitle = "tempo medio == 6.327523e-07s")
+
+ggplot(t_rb, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "black", size = 0.2, alpha = 0.8) + 
+  geom_linerange( aes(x=Dim, ymin=Tempo -Sd, ymax=Tempo +Sd), width=0.2, size=0.1, color="orange", alpha = 1.2) + 
+  theme_minimal() + 
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ")
+
+ggplot(t_bst, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "blue", size = 1, alpha = 0.4) + 
+  geom_point(data= t_avl, aes( x = Dim, y = Tempo), size = 1, color = "green", alpha = 0.6 ) +
+  geom_point(data= t_rb, aes( x = Dim, y = Tempo), size = 1, color = "red", alpha = 0.6 ) +
+  theme_minimal() +
+  scale_x_log10() + 
+  scale_y_log10()+
+  ylab( "Tempo Medio") + 
+  xlab( "Numero operazioni ") + 
+  labs(subtitle = "scala doppiamente logaritmica\nblue - BSTree\ngreen - AVL Tree\nred - RB Tree")
+
+
+```
+
+AVL 
+
+```{r}
+t2 <- read.csv("/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/Grafici/avl.csv",  header = TRUE, sep = ',')
+
+ggplot(t2, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "red", size = 0.1, alpha = 0.4) + 
+  scale_x_log10()+
+  scale_y_log10()
+
+ggplot(t2, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "blue", size = 0.1, alpha = 0.4) + 
+  scale_x_log10()
+
+ggplot(t2, aes( x = Dim, y = Tempo) )+ 
+  geom_point(color = "green", size = 0.1, alpha = 0.4) + 
+  scale_y_log10()
+
+ggplot(t, aes( x = Dim, y = TempoM) )+ 
+  geom_line(color = "red") +
+  geom_line(data= t2, aes( x = Dim, y = TempoM), color = "green", size = 0.4 )
+
+```

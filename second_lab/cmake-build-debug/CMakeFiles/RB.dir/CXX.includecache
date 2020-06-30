@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/riccardo/Desktop/Laboratori_Uni/Lab_ASD2/RB.cpp
+iostream
+-
+sstream
+-
+vector
+-
+string.h
+-
+
